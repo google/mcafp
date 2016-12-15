@@ -43,7 +43,12 @@ if [ -e "${DICTDIR}/${DICT}" ]; then
   echo "Using existing dict: ${DICTDIR}/${DICT}"
 else
   echo "Generate dict: ${DICTDIR}/${DICT}"
-  python html2word_release.py "${LDCDIR}/${HTML}" "${DICTDIR}/${DICT}"
+  python html2word.py "${LDCDIR}/${HTML}" "${DICTDIR}/${DICT}"
+fi
+
+if [ ! -f "${MCAFPDIR}/train.mc5.kv" ]; then
+  echo "Concatenate all training files to train.mc5.kv"
+  cat ${MCAFPDIR}/train.mc5.kv-00?? > "${MCAFPDIR}/train.mc5.kv"
 fi
 
 for FNAME in "test" "dev" "train"; do
@@ -54,7 +59,7 @@ for FNAME in "test" "dev" "train"; do
   fi
   TEXTKV="${FNAME}.mc5-text.kv"
   echo "Generate ${TEXTKV}"
-  python id2text_release.py "${DICTDIR}/${DICT}" "${MCAFPDIR}/${IDKV}" "${OUTDIR}/${TEXTKV}"
+  python id2text.py "${DICTDIR}/${DICT}" "${MCAFPDIR}/${IDKV}" "${OUTDIR}/${TEXTKV}"
 done
 
 echo "Done, see the .kv files in ${OUTDIR}"
