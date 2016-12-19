@@ -43,6 +43,7 @@ if [ -e "${DICTDIR}/${DICT}" ]; then
   echo "Using existing dict: ${DICTDIR}/${DICT}"
 else
   echo "Generate dict: ${DICTDIR}/${DICT}"
+  gunzip ${LDCDIR}/${HTML}
   python html2word.py "${LDCDIR}/${HTML}" "${DICTDIR}/${DICT}"
 fi
 
